@@ -1,0 +1,23 @@
+{
+  "name": "tscrawler",
+  "version": "1.0.0",
+  "description": "TS crawler tool",
+  "main": "index.js",
+  "scripts": {
+    "dev": "ts-node ./src/crawler.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maomincoding/TsCrawler.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/maomincoding/TsCrawler/issues"
+  },
+  "homepage": "https://github.com/maomincoding/TsCrawler#readme",
+  "devDependencies": {
+    "ts-node": "^9.1.1",
+    "typescript": "^4.1.3"
+  }
+}
