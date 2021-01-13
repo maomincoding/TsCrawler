@@ -1,46 +1,36 @@
 import superagent from "superagent";
-import cheerio from "cheerio";
 import fs from "fs";
 import path from "path";
+import UrlAnalyzer from "./urlAnalyzer";
 
-interface objJson {
-  [propName:string]:string
+export interface Analyzer {
+  analyze:(html:string,filePath:string,date:string) => string
 }
 
 class Crowller {
-  private url = "http://www.kp980.com/kehuanpian/gangtiexia2/play-0-0.html";
-
-  getJsonInfo(html: string) {
-    const $ = cheerio.load(html);
-    const scpt: string = String(
-      $(".stui-player__iframe>script:nth-child(1)").html()
-    );
-    return unescape(scpt.split(";")[3].split("(")[1].split(")")[0]);
-  }
+  private filePath = path.resolve(__dirname, "../data/url.json");
 
   async getRawHtml() {
     const result = await superagent.get(this.url);
     return result.text;
   }
-  getJsonContent(url: string) {
-    const filePath = path.resolve(__dirname, "../data/url.json");
-    let fileContent: objJson = {};
-    if (fs.existsSync(filePath)) {
-      fileContent = JSON.parse(fs.readFileSync(filePath, "utf-8"));
-    }
-    fileContent[this.url] = url;
-    fs.writeFileSync(filePath, JSON.stringify(fileContent));
-  }
-  async initSpiderProcess() {
-    const html = await this.getRawHtml();
-    const url = this.getJsonInfo(html);
-    this.getJsonContent(url);
-    console.log(url);
+
+  writeFile(content: string) {
+    fs.writeFileSync(this.filePath, content);
   }
 
-  constructor() {
+  async initSpiderProcess() {
+    const html = await this.getRawHtml();
+    const date = new Date().getTime().toString();
+    const fileContent = this.analyzer.analyze(html, this.filePath, date);
+    this.writeFile(JSON.stringify(fileContent));
+  }
+
+  constructor(private analyzer: Analyzer, private url: string) {
     this.initSpiderProcess();
   }
 }
+const url ="http://www.kp980.com/kehuanpian/heiyiren_quanqiuzhuiji/play-0-0.html";
 
-const crowller = new Crowller();
+const analyzer = new UrlAnalyzer();
+new Crowller(analyzer,url);
