@@ -4,25 +4,24 @@ import path from "path";
 import UrlAnalyzer from "./urlAnalyzer";
 
 export interface Analyzer {
-  analyze:(html:string,filePath:string,date:string) => string
+  analyze: (html: string, filePath: string) => string;
 }
 
 class Crowller {
-  private filePath = path.resolve(__dirname, "../data/url.json");
+  private filePath = path.resolve(__dirname, "../../data/url.json");
 
   async getRawHtml() {
     const result = await superagent.get(this.url);
     return result.text;
   }
 
-  writeFile(content: string) {
+  private writeFile(content: string) {
     fs.writeFileSync(this.filePath, content);
   }
 
-  async initSpiderProcess() {
+  private async initSpiderProcess() {
     const html = await this.getRawHtml();
-    const date = new Date().getTime().toString();
-    const fileContent = this.analyzer.analyze(html, this.filePath, date);
+    const fileContent = this.analyzer.analyze(html, this.filePath);
     this.writeFile(JSON.stringify(fileContent));
   }
 
@@ -30,7 +29,7 @@ class Crowller {
     this.initSpiderProcess();
   }
 }
-const url ="http://www.kp980.com/kehuanpian/heiyiren_quanqiuzhuiji/play-0-0.html";
+const url = "https://www.hanju.run/play/39257-1-1.html";
 
-const analyzer = new UrlAnalyzer();
-new Crowller(analyzer,url);
+const analyzer = UrlAnalyzer.getInstance();
+new Crowller(analyzer, url);

@@ -4,7 +4,8 @@
   "description": "TS crawler tool",
   "main": "index.js",
   "scripts": {
-    "dev": "ts-node ./src/crawler.ts"
+    "dev1": "ts-node ./src/combination/crawler.ts",
+    "dev2": "ts-node ./src/singleton/crawler1.ts"
   },
   "repository": {
     "type": "git",
