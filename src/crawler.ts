@@ -18,7 +18,7 @@ interface InfoResult {
 }
 
 class Crawler {
-  private url = "https://www.hanju.run/play/39257-1-1.html";
+  private url = "https://www.hanju.run/play/39221-4-0.html";
 
   getJsonInfo(html: string) {
     const $ = cheerio.load(html);
