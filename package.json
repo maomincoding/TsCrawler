@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "ts-node ./src/crawler.ts",
     "dev-c": "ts-node ./src/combination/crawler.ts",
-    "dev-s": "ts-node ./src/singleton/crawler1.ts"
+    "dev-s": "ts-node ./src/singleton/crawler1.ts",
+    "build": "tsc",
+    "build-w": "tsc -w"
   },
   "repository": {
     "type": "git",
